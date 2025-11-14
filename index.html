@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aria | Custom Paint-Dipped Luxury Bags & Accessories</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font family -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles and font setup */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0a0b; /* Deep almost-black base */
+            color: #f1f1f1;
+            overflow-x: hidden;
+        }
+
+        /* 1. METALLIC TEXT EFFECT */
+        .metallic-text {
+            background: linear-gradient(135deg, #FFD700 0%, #FFDF80 30%, #B8860B 60%, #FFD700 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-fill-color: transparent;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+            filter: drop-shadow(0 0 1px rgba(255, 215, 0, 0.6));
+        }
+
+        /* 2. CINEMATIC SCROLL UX (Scroll-Snap) */
+        .scroll-snap-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: 100vh;
+        }
+        .scroll-snap-section {
+            scroll-snap-align: start;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* 3. DYNAMIC PAINT AESTHETIC - SMOOTH, REALISTIC DRIPPING */
+        @keyframes splash-fade {
+            /* Start: small, high, invisible */
+            0% { opacity: 0; transform: scale(0.6) translateY(-50px) rotate(0deg); }
+            /* Peak visibility and initial impact */
+            10% { opacity: 0.9; transform: scale(1) translateY(0px) rotate(5deg); }
+            /* Drip downward movement and fade */
+            80% { opacity: 0.3; transform: scale(1.1) translateY(100px) rotate(10deg); }
+            /* End: faded, large, far down */
+            100% { opacity: 0; transform: scale(1.3) translateY(200px) rotate(15deg); }
+        }
+
+        .paint-splash {
+            position: absolute;
+            width: 200px; /* Wider for more impact */
+            height: 300px; /* Taller to emphasize drip */
+            /* Irregular organic shape for splatter/drip look */
+            border-radius: 40% 60% 70% 30% / 60% 40% 30% 70%;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 1s ease-out, transform 1s ease-out; /* Base transition */
+            filter: blur(15px) saturate(200%); /* Heavy blur and color saturation for liquid look */
+        }
+
+        .active-splash {
+            /* Use a smooth, continuous easing function */
+            animation: splash-fade 6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .rating-star {
+            color: #FFD700; /* Gold for stars */
+            display: inline-block;
+            margin-right: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Dynamic Paint Splash Layer -->
+    <div id="paint-layer" class="fixed inset-0 pointer-events-none overflow-hidden">
+        <!-- Splashes dynamically generated here -->
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 w-full z-50 p-4 md:p-6 flex justify-between items-center backdrop-blur-sm bg-black/30 shadow-lg">
+        <h1 class="text-3xl font-extrabold tracking-widest cursor-pointer">
+            <span class="metallic-text">ARIA</span>
+        </h1>
+        <div class="flex items-center space-x-6">
+            <a href="#collections" class="text-sm uppercase font-medium hover:text-yellow-400 transition hidden sm:inline">Collections</a>
+            <a href="#story" class="text-sm uppercase font-medium hover:text-yellow-400 transition hidden sm:inline">Our Story</a>
+            <button id="cart-btn" class="relative p-2 rounded-full hover:bg-white/10 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+                <span id="cart-count" class="absolute top-0 right-0 bg-yellow-400 text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center opacity-0 transition-opacity duration-300">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Scroll Snap Container -->
+    <main id="app-main" class="scroll-snap-container">
+
+        <!-- SECTION 1: HERO / HOME -->
+        <section id="home" class="scroll-snap-section flex flex-col items-center justify-center text-center bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1627916531478-f3d8c1995874?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+            <div class="z-10 px-4 max-w-4xl opacity-0 fade-in">
+                <p class="text-sm uppercase tracking-widest mb-4 text-yellow-300">The Art of Desire</p>
+                <h2 class="text-7xl md:text-8xl font-black mb-6 leading-tight">
+                    <span class="metallic-text">LIQUID</span> <span class="metallic-text">LUXURY</span>
+                </h2>
+                <p class="text-xl md:text-2xl text-white/80 mb-10">Each piece is a single moment of color, immortalized in premium material.</p>
+                <a href="#collections" class="inline-block px-8 py-3 bg-yellow-400 text-black font-semibold rounded-full shadow-xl hover:bg-yellow-500 transition duration-300 ease-in-out transform hover:scale-105">
+                    Explore Collections
+                </a>
+            </div>
+        </section>
+
+        <!-- SECTION 2: COLLECTIONS -->
+        <section id="collections" class="scroll-snap-section pt-24 pb-12 bg-[#121212] overflow-hidden">
+            <div class="px-4 md:px-12 max-w-7xl mx-auto">
+                <h2 class="text-5xl md:text-6xl font-black mb-16 text-center opacity-0 fade-in">
+                    <span class="metallic-text">The</span> <span class="metallic-text">Collections</span>
+                </h2>
+
+                <div id="product-list" class="space-y-24">
+                    <div id="loading-indicator" class="text-center py-20 text-white/50">
+                        <svg class="animate-spin h-8 w-8 text-yellow-400 mx-auto mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                        Generating unique product imagery (Glass, Leather, Fabric)...
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 3: OUR STORY -->
+        <section id="story" class="scroll-snap-section flex flex-col items-center justify-center p-8 bg-[#0d0a0b]">
+            <div class="max-w-3xl text-center opacity-0 fade-in">
+                <p class="text-sm uppercase tracking-widest mb-4 text-yellow-300">The Genesis of ARIA</p>
+                <h2 class="text-5xl md:text-6xl font-black mb-8">
+                    <span class="metallic-text">Intentional</span> <span class="metallic-text">Imperfection</span>
+                </h2>
+                <p class="text-xl text-white/80 mb-6">Aria was founded on the principle that the most beautiful things are those that cannot be replicated. Our process involves a gravity-fed color dip, ensuring that no two paint flows are ever the same. This is not mass production—it is singular artistry.</p>
+                <p class="text-lg text-white/60">We use only ethically sourced, premium materials and proprietary, non-toxic pigments engineered for longevity and brilliance.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Cart / Checkout Modal (Hidden by Default) -->
+    <div id="cart-modal" class="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm hidden items-center justify-center transition-opacity duration-300">
+        <div class="bg-[#1e1e1e] w-full max-w-4xl h-full md:h-auto rounded-xl shadow-2xl overflow-y-auto transform scale-95 transition-transform duration-300 relative">
+            <div class="p-6 border-b border-gray-700 flex justify-between items-center">
+                <h3 id="checkout-title" class="text-3xl font-bold">Your Cart</h3>
+                <button onclick="hideModal('cart-modal')" class="text-white hover:text-gray-400 p-2 rounded-full transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <div id="checkout-content" class="p-6"></div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal (PIM) -->
+    <div id="product-detail-modal" class="fixed inset-0 z-[60] bg-black/90 backdrop-blur-sm hidden items-center justify-center transition-opacity duration-300">
+        <div class="bg-[#1e1e1e] w-full max-w-6xl h-full md:h-5/6 rounded-xl shadow-2xl overflow-y-auto transform scale-95 transition-transform duration-300 relative">
+            <button onclick="hideModal('product-detail-modal')" class="absolute top-4 right-4 text-white hover:text-gray-400 p-2 rounded-full transition z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <div id="product-detail-content"></div>
+        </div>
+    </div>
+
+<script>
+    // Global State
+    let cart = JSON.parse(localStorage.getItem('aria_cart')) || [];
+    let checkoutStep = 1;
+    const checkoutSteps = ['Cart Summary', 'Shipping Information', 'Payment Confirmation'];
+    const apiKey = ""; // API Key is automatically provided by the environment
+
+    // Product Data
+    let PRODUCTS = [
+        { id: 1, name: 'The Chroma Tote', price: 3400, material: 'Premium Leather', rating: 4.8, shortDesc: 'A canvas of movement. Dipped in pure pigment, sealed with a high-gloss metallic finish.', longDesc: 'Crafted from full-grain Italian leather, this tote is individually submerged in proprietary color pigments. The process ensures a unique, flowing paint trail that resists cracking and fading. The hardware is brushed molten gold, complementing the leather\'s rich texture. Perfect for high-end daily use, demanding attention.', imgSrc: 'https://placehold.co/1200x800/100f12/FFD700?text=Generating+Leather+Bag...', prompt: 'A vibrant paint-dipped leather handbag on a dark velvet surface, luxury photography, cinematic, molten gold metallic drip, high resolution.' },
+        { id: 2, name: 'The Spectrum Clutch', price: 5800, material: 'Hand-Blown Glass', rating: 4.5, shortDesc: 'A frozen moment of color, captured in hand-blown, tempered glass.', longDesc: 'The Spectrum Clutch is a true structural masterpiece. Created from chemically tempered borosilicate glass, the interior is lined with a thin layer of metallic pigment which is then shattered, creating an iridescent, crystalline effect. Due to its fragility and unique composition, this piece is a limited edition, meant for display and the most exclusive evening wear.', imgSrc: 'https://placehold.co/1200x800/100f12/FFD700?text=Generating+Glass+Clutch...', prompt: 'A cracked paint-dipped clear glass clutch bag with iridescent metallic shimmer on a dark velvet surface, luxury photography, cinematic, high resolution, dramatic lighting.' },
+        { id: 3, name: 'The Fluid Silk Scarf', price: 980, material: 'Woven Silk Fabric', rating: 4.9, shortDesc: 'Fluid dye movement on Japanese silk, a wearable piece of abstract art.', longDesc: 'This oversized scarf is made from 100% Habotai silk, known for its light weight and excellent drape. The paint-dipping process here utilizes specialized dye that permeates the fabric, allowing the colors to bleed and flow naturally into fluid shapes. The result is a soft, wearable piece of abstract expressionism, designed to be draped or used as an accent accessory.', imgSrc: 'https://placehold.co/1200x800/100f12/FFD700?text=Generating+Fabric+Scarf...', prompt: 'A highly draped, vibrant dye-dipped woven silk fabric shoulder bag on a dark velvet surface, luxury photography, cinematic, flowing colors, high resolution, soft lighting.' }
+    ];
+
+    // --- UTILITIES ---
+
+    /** Formats number to USD currency string. */
+    const formatPrice = (price) => `$${price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+
+    /** Generates star rating HTML. */
+    const renderRating = (rating) => {
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5;
+        let html = '';
+
+        // Full Stars
+        for (let i = 0; i < fullStars; i++) {
+            html += '<span class="rating-star text-xl">★</span>';
+        }
+        // Half Star
+        if (halfStar) {
+            html += '<span class="rating-star text-xl">½</span>';
+        }
+        // Empty Stars
+        const emptyStars = 5 - Math.ceil(rating);
+        for (let i = 0; i < emptyStars; i++) {
+            html += '<span class="rating-star text-xl text-gray-500">★</span>';
+        }
+        return `<div class="flex items-center text-sm"> ${html} <span class="ml-2 text-white/70">(${rating.toFixed(1)})</span></div>`;
+    };
+
+    /** Persists cart state to Local Storage and updates UI count. */
+    const updateCartState = () => {
+        localStorage.setItem('aria_cart', JSON.stringify(cart));
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const cartCountEl = document.getElementById('cart-count');
+
+        cartCountEl.textContent = totalItems;
+        if (totalItems > 0) {
+            cartCountEl.classList.remove('opacity-0');
+        } else {
+            cartCountEl.classList.add('opacity-0');
+        }
+        // Only re-render the cart if the modal is currently open
+        const cartModal = document.getElementById('cart-modal');
+        if (!cartModal.classList.contains('hidden')) {
+             renderCartOrCheckout();
+        }
+    };
+
+    /** Adds item to cart or increments quantity. */
+    const addToCart = (productId) => {
+        const product = PRODUCTS.find(p => p.id === productId);
+        if (!product) { console.error("Product not found"); return; }
+
+        const existingItem = cart.find(item => item.id === product.id);
+
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ id: product.id, name: product.name, price: product.price, img: product.imgSrc, quantity: 1 });
+        }
+
+        updateCartState();
+        showModal('cart-modal');
+        document.getElementById('checkout-title').innerHTML = `<span class="metallic-text">Your Cart</span>`;
+        checkoutStep = 1;
+        hideModal('product-detail-modal'); // Close PIM if open
+        console.log(`Added ${product.name} to cart.`);
+    };
+
+    /** Updates item quantity in cart. */
+    const updateQuantity = (id, change) => {
+        const item = cart.find(item => item.id === id);
+        if (item) {
+            item.quantity += change;
+            if (item.quantity <= 0) {
+                cart = cart.filter(item => item.id !== id);
+            }
+        }
+        updateCartState();
+    };
+
+    /** Clears the cart and storage. */
+    const clearCart = () => {
+        cart = [];
+        updateCartState();
+        hideModal('cart-modal');
+        console.log("Cart cleared.");
+    }
+
+    // --- RENDERING & MODAL LOGIC ---
+
+    /** Renders the Collection section. */
+    const renderProductList = () => {
+        const container = document.getElementById('product-list');
+        const loadingIndicator = document.getElementById('loading-indicator');
+
+        if (loadingIndicator) loadingIndicator.remove();
+
+        const html = PRODUCTS.map((product, index) => {
+            const isReversed = index % 2 !== 0;
+            return `
+                <div class="flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} items-center md:space-x-12 mb-24 ${isReversed ? 'md:space-x-reverse' : ''} opacity-0 fade-in" data-parallax-speed="${isReversed ? 1.2 : 0.8}">
+                    <div class="md:w-1/2 mb-8 md:mb-0 relative rounded-2xl overflow-hidden shadow-2xl">
+                        <!-- Note: The img ID is used for the generator's JS update -->
+                        <img id="product-img-${product.id}" src="${product.imgSrc}" alt="${product.name}" class="w-full h-auto object-cover rounded-2xl transition duration-500 ease-in-out transform hover:scale-[1.03]">
+                    </div>
+                    <div class="md:w-1/2">
+                        <p class="text-sm uppercase tracking-widest mb-1 text-yellow-300/80">${product.material}</p>
+                        <h3 class="text-4xl font-bold mb-2">${product.name}</h3>
+                        <div class="mb-4">${renderRating(product.rating)}</div>
+                        <p class="text-lg text-white/70 mb-6">${product.shortDesc}</p>
+                        <p class="text-3xl font-extrabold mb-8">
+                            <span class="metallic-text">${formatPrice(product.price)}</span>
+                        </p>
+                        <div class="flex space-x-4">
+                            <button onclick="addToCart(${product.id})" class="px-6 py-3 bg-yellow-400 text-black font-semibold rounded-full shadow-xl hover:bg-yellow-500 transition duration-200 transform hover:scale-[1.03]">
+                                Add to Cart
+                            </button>
+                            <button onclick="viewDetails(${product.id})" class="px-6 py-3 border border-gray-600 text-white font-semibold rounded-full hover:bg-gray-800 transition duration-200">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        container.innerHTML = html;
+        initAnimations(); // Re-apply fade-in animations to new elements
+    };
+
+    /** Renders the Product Detail Modal (PIM). */
+    const viewDetails = (productId) => {
+        const product = PRODUCTS.find(p => p.id === productId);
+        if (!product) return;
+
+        const container = document.getElementById('product-detail-content');
+        container.innerHTML = `
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6 md:p-12">
+                <!-- Image Section -->
+                <div class="relative rounded-xl overflow-hidden shadow-2xl">
+                    <img src="${product.imgSrc}" alt="${product.name} High Resolution View" class="w-full h-full object-cover">
+                </div>
+
+                <!-- Details Section -->
+                <div class="flex flex-col justify-center">
+                    <p class="text-sm uppercase tracking-widest mb-2 text-yellow-300/80">${product.material}</p>
+                    <h1 class="text-5xl font-black mb-4"><span class="metallic-text">${product.name}</span></h1>
+                    <div class="mb-4">${renderRating(product.rating)}</div>
+
+                    <p class="text-3xl font-extrabold mb-6">
+                        <span class="metallic-text">${formatPrice(product.price)}</span>
+                    </p>
+
+                    <h2 class="text-2xl font-semibold mt-6 mb-2">The Genesis</h2>
+                    <p class="text-lg text-white/70 mb-8
